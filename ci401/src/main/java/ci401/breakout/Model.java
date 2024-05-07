@@ -9,6 +9,7 @@ package ci401.breakout;
 
 import javafx.scene.paint.*;
 import javafx.application.Platform;
+import java.util.Random;
 
 public class Model 
 {
@@ -27,6 +28,10 @@ public class Model
     public int HIT_BRICK      = 50;     // Score for hitting a brick
     public int HIT_BOTTOM     = -200;   // Score (penalty) for hitting the bottom of the screen
 
+    public int BrickNum;                // The number of bricks
+    public Random RandomGen = new Random();         // a random number generator
+    public BrickObj upgrade;            //  a brick randomly selected to get upgraded
+
     // The other parts of the model-view-controller setup
     View view;
     Controller controller;
@@ -34,8 +39,8 @@ public class Model
     // The game 'model' - these represent the state of the game
     // and are used by the View to display it
     public BallObj ball;                // The ball
-    public BrickObj[] bricks;            // The bricks
-    public BatObj bat;                 // The bat
+    public BrickObj[] bricks;           // The bricks
+    public BatObj bat;                  // The bat
     public int score = 0;               // The score
 
     // variables that control the game 
@@ -56,24 +61,10 @@ public class Model
 
     }
 
-    
-    // Animating the game
-    // The game is animated by using a 'thread'. Threads allow the program to do 
-    // two (or more) things at the same time. In this case the main program is
-    // doing the usual thing (View waits for input, sends it to Controller,
-    // Controller sends to Model, Model updates), but a second thread runs in 
-    // a loop, updating the position of the ball, checking if it hits anything
-    // (and changing direction if it does) and then telling the View the Model 
-    // changed.
-    
-    // When we use more than one thread, we have to take care that they don't
-    // interfere with each other (for example, one thread changing the value of 
-    // a variable at the same time the other is reading it). We do this by 
-    // SYNCHRONIZING methods. For any object, only one synchronized method can
-    // be running at a time - if another thread tries to run the same or another
-    // synchronized method on the same object, it will stop and wait for the
-    // first one to finish.
-    
+    // ##################
+    // Animating the game   
+    // ##################
+
     // Start the animation thread
     public void startGame()
     {
@@ -88,8 +79,7 @@ public class Model
     {       
         score = 0;
         ball   = new BallObj(width/2, height/2, BALL_SIZE, Color.RED );
-        bat    = new BatObj(width/2, height - BRICK_HEIGHT*3/2, BRICK_WIDTH*3, 
-            BRICK_HEIGHT/4, Color.GRAY);
+        bat    = new BatObj(width/2, height - BRICK_HEIGHT*3/2, BRICK_WIDTH*3, BRICK_HEIGHT/4, Color.GRAY);
         bricks = new BrickObj[0];
         int WALL_TOP = 100;                     // how far down the screen the wall starts
         int NUM_BRICKS = width/BRICK_WIDTH;     // how many bricks fit on screen
@@ -143,20 +133,18 @@ public class Model
         if (y >= height - B - BALL_SIZE) ball.changeDirectionY(); // Bottom
         if (y <= 0 + M)  ball.changeDirectionY();
 
-       // check whether ball has hit a (visible) brick
+        // check whether ball has hit a (visible) brick and destroy (hide) a brick if it is
         boolean hit = false;
-
-        // *[3]******************************************************[3]*
-        // * Fill in code to check if a visible brick has been hit      *
-        // * The ball has no effect on an invisible brick               *
-        // * If a brick has been hit, change its 'visible' setting to   *
-        // * false so that it will 'disappear'                          * 
-        // **************************************************************
         for (BrickObj brick: bricks) {
             if (brick.visible && brick.hitBy(ball)) {
                 hit = true;
                 brick.visible = false;      // set the brick invisible
                 addToScore( HIT_BRICK );    // add to score for hitting a brick
+                BrickNum -= 1;
+                if (BrickNum == 0)          // if no bricks are left, restart
+                {
+                    resetGame();
+                }
             }
         }    
 
@@ -167,6 +155,17 @@ public class Model
         // check whether ball has hit the bat
         if ( ball.hitBy(bat) ) {
             ball.changeDirectionY();
+        }
+    }
+
+    // when all the bricks are destroyed, reset them and double 1 bricks value
+    public synchronized void resetGame()
+    {
+        for (BrickObj brick: bricks)        // make all bricks visible
+        {
+            brick.visible = true;
+        // double the value of a random brick
+        bricks[RandomGen.nextInt(bricks.length)-1].Value = bricks[RandomGen.nextInt(bricks.length)-1].Value*2;
         }
     }
 
