@@ -46,7 +46,7 @@ public class Controller
         if (model.fast == false) {model.fast = true;}
         else {model.fast = false;}
         break;
-      case S :
+      case ESCAPE :
         // stop the game
         model.setGameState("finished");
         break;
