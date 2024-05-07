@@ -130,7 +130,7 @@ public class View implements EventHandler<KeyEvent>
     public void displayBall( GraphicsContext gc, BallObj go ) 
     {
         gc.setFill( go.colour );
-        gc.fillRect( go.topX, go.topY, go.width, go.height );
+        gc.fillOval( go.topX, go.topY, go.width, go.height );
     }
 
     public void displayBat( GraphicsContext gc, BatObj go ) 
