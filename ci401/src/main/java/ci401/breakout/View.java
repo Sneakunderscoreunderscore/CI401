@@ -94,9 +94,6 @@ public class View implements EventHandler<KeyEvent>
     // drawing the game image
     public void drawPicture()
     {
-        // the game loop is running 'in the background' so we have
-        // add the following line to make sure it doesn't change
-        // the model in the middle of us updating the image
         synchronized ( model ) 
         {
             // get the 'paint brush' to pdraw on the canvas
@@ -110,11 +107,7 @@ public class View implements EventHandler<KeyEvent>
             displayBall( gc, ball );   // Display the Ball
             displayBat( gc, bat  );   // Display the Bat
 
-            // *[2]****************************************************[2]*
-            // * Display the bricks that make up the game                 *
-            // * Fill in code to display bricks from the brick array      *
-            // * Remember only a visible brick is to be displayed         *
-            // ************************************************************
+            // Display the bricks that make up the game
             for (BrickObj brick: bricks) {
                 if (brick.visible) {
                     displayBrick(gc, brick);

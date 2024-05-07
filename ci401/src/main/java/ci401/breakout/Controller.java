@@ -19,35 +19,31 @@ public class Controller
     Debug.trace("Controller::<constructor>");
   }
   
-  // This is how the View talks to the Controller
-  // AND how the Controller talks to the Model
-  // This method is called by the View to respond to key presses in the GUI
-  // The controller's job is to decide what to do. In this case it converts
-  // the keypresses into commands which are run in the model
+// #############
+// Input handler
+// #############
+
   public void userKeyInteraction(KeyEvent event )
   {
     // print a debugging message to show a key has been pressed
     Debug.trace("Controller::userKeyInteraction: keyCode = " + event.getCode() );
     
-    // KeyEvent objects have a method getCode which tells us which key has been pressed.
-    // KeyEvent also provides variables LEFT, RIGHT, F, N, S (etc) which are the codes
-    // for individual keys. So you can add keys here just by using their name (which you
-    // can find out by googling 'JavaFX KeyCode')
     switch ( event.getCode() )             
     {
-      case LEFT:                     // Left Arrow
-        model.moveBat( -1);          // move bat left
+      case LEFT:                     // Left Arrow - move bat left
+        model.moveBat( -1);          
         break;
-      case RIGHT:                    // Right arrow
-        model.moveBat( +1 );         // Move bat right
+
+      case RIGHT:                    // Right arrow - move bat right
+        model.moveBat( +1 );         
         break;
-      case SHIFT :
-        // Fast move toggle
+
+      case SHIFT:                    // shift - toggle fast movement
         if (model.fast == false) {model.fast = true;}
         else {model.fast = false;}
         break;
-      case ESCAPE :
-        // stop the game
+
+      case ESCAPE :                  // escape - stop the game
         model.setGameState("finished");
         break;
     }
