@@ -41,13 +41,10 @@ public class Controller
       case RIGHT:                    // Right arrow
         model.moveBat( +1 );         // Move bat right
         break;
-      case F :
-        // Very fast ball movement
-        model.setFast(true);
-        break;
-      case N :
-        // Normal speed ball movement
-        model.setFast(false);
+      case CAPS :
+        // Fast move toggle
+        if (model.fast == false) {model.fast = true;}
+        else {model.fast = false;}
         break;
       case S :
         // stop the game
