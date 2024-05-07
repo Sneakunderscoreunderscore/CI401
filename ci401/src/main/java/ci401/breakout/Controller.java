@@ -41,7 +41,7 @@ public class Controller
       case RIGHT:                    // Right arrow
         model.moveBat( +1 );         // Move bat right
         break;
-      case CAPS :
+      case SHIFT :
         // Fast move toggle
         if (model.fast == false) {model.fast = true;}
         else {model.fast = false;}
