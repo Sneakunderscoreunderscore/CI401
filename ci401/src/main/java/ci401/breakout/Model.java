@@ -31,6 +31,7 @@ public class Model
     public int BrickNum;                // The number of bricks
     public Random RandomGen = new Random();         // a random number generator
     public BrickObj upgrade;            //  a brick randomly selected to get upgraded
+    public static Color[] colours = {Color.GRAY,Color.AQUAMARINE,Color.AQUA,Color.AZURE};
 
     // The other parts of the model-view-controller setup
     View view;
@@ -57,8 +58,6 @@ public class Model
         Debug.trace("Model::<constructor>");  
         width = w; 
         height = h;
-
-
     }
 
     // ##################
@@ -85,8 +84,9 @@ public class Model
         int NUM_BRICKS = width/BRICK_WIDTH;     // how many bricks fit on screen
         bricks = new BrickObj[NUM_BRICKS];       // make an array big enough for all the bricks
         for (int i=0; i < NUM_BRICKS; i++) {
-            BrickObj brick = new BrickObj(BRICK_WIDTH*i, WALL_TOP, BRICK_WIDTH, BRICK_HEIGHT, Color.BLUE, 1);
+            BrickObj brick = new BrickObj(BRICK_WIDTH*i, WALL_TOP, BRICK_WIDTH, BRICK_HEIGHT, Color.BLUE);
             bricks[i] = brick;      // add this brick to the list of bricks
+            BrickNum++;
         }
     }
 
@@ -141,6 +141,7 @@ public class Model
                 brick.visible = false;      // set the brick invisible
                 addToScore( HIT_BRICK );    // add to score for hitting a brick
                 BrickNum -= 1;
+                Debug.trace("Model::updateGame: bricks left:"+BrickNum);
                 if (BrickNum == 0)          // if no bricks are left, restart
                 {
                     resetGame();
@@ -164,8 +165,9 @@ public class Model
         for (BrickObj brick: bricks)        // make all bricks visible
         {
             brick.visible = true;
+            BrickNum++;
         // double the value of a random brick
-        bricks[RandomGen.nextInt(bricks.length)-1].Value = bricks[RandomGen.nextInt(bricks.length)-1].Value*2;
+        bricks[RandomGen.nextInt(BrickNum)].LevelUp();
         }
     }
 

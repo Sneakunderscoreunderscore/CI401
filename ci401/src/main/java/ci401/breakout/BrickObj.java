@@ -12,17 +12,22 @@ import javafx.scene.paint.Color;
 public class BrickObj extends BaseObj
 {
     // state variables for a game object
-    public int Value;
+    public int Value = 50;
+    public int Level;
 
-    public BrickObj( int x, int y, int w, int h, Color c,int v)
+    public BrickObj( int x, int y, int w, int h, Color c)
     {
         super(x, y, w, h, c);
-        Value = v;
     }
 
+    public void LevelUp()
+    {
+        Value = Value*2;
+        Level++;
+        colour = Model.colours[Level];
+    }
 
     // collision detection (if hit by a ball)
-
     public boolean hitBy( BallObj obj )
     {
         boolean separate =  
