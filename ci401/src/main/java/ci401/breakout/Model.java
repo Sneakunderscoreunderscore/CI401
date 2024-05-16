@@ -26,12 +26,13 @@ public class Model
     public int BALL_MOVE      = 3;      // Units to move the ball on each step
 
     public int HIT_BRICK      = 50;     // Score for hitting a brick
-    public int HIT_BOTTOM     = -200;   // Score (penalty) for hitting the bottom of the screen
-
+    public int HIT_MULTI     = 1;       // current score multiplier
+    public int MAX_MULTI     = 1;       // multiplier for hitting bat
+ 
     public int BrickNum;                // The number of bricks
     public Random RandomGen = new Random();         // a random number generator
     public BrickObj upgrade;            //  a brick randomly selected to get upgraded
-    public static Color[] colours = {Color.GRAY,Color.AQUAMARINE,Color.AQUA,Color.AZURE};
+    public static Color[] colours = {Color.GRAY,Color.AQUAMARINE,Color.AQUA,Color.AZURE,Color.RED};
 
     // The other parts of the model-view-controller setup
     View view;
@@ -134,16 +135,19 @@ public class Model
         // Deal with possible edge of board hit
         if (x >= width - B - BALL_SIZE)  ball.changeDirectionX();
         if (x <= 0 + B)  ball.changeDirectionX();
-        if (y >= height - B - BALL_SIZE) ball.changeDirectionY(); // Bottom
+        if (y >= height - B - BALL_SIZE){
+            ball.changeDirectionY(); // Bottom
+            HIT_MULTI=1;
+        }
         if (y <= 0 + M)  ball.changeDirectionY();
 
         // check whether ball has hit a (visible) brick and destroy (hide) a brick if it is
         boolean hit = false;
         for (BrickObj brick: bricks) {
-            if (brick.visible && brick.hitBy(ball)) {
+            if (brick.visible && (ball.IFrames==0) && brick.hitBy(ball)) {
                 hit = true;
                 brick.visible = false;      // set the brick invisible
-                addToScore( HIT_BRICK );    // add to score for hitting a brick
+                addToScore( HIT_BRICK * HIT_MULTI);    // add to score for hitting a brick
                 BrickNum -= 1;
                 Debug.trace("Model::updateGame: bricks left:"+BrickNum);
                 if (BrickNum == 0)          // if no bricks are left, restart
@@ -172,8 +176,10 @@ public class Model
     }
 
     // when all the bricks are destroyed, reset them and double 1 bricks value
-    public synchronized void resetGame()
+    public void resetGame()
     {
+        Debug.trace("Model::resetGame: reset started");
+        ball.IFrames=60;
         for (BrickObj brick: bricks)        // make all bricks visible
         {
             brick.visible = true;
@@ -289,8 +295,8 @@ public class Model
     public synchronized void buyball()    
     {
         if (score>shopball){
-            bat.width += 5;
-            shopball = (int) (shopball*1.7);  
+            MAX_MULTI +=0.2;
+            shopball = (int) (shopball*1.4);  
         } 
     }
 }   
