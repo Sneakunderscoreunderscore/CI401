@@ -13,6 +13,7 @@ public class BallObj extends BaseObj
 {
     public int   dirX   = 1;            // Direction X (1, 0 or -1)
     public int   dirY   = 1;            // Direction Y (1, 0 or -1)
+    public int   IFrames   = 0; 
 
     // ball object inherits basic needs from 'BaseObj'
     public BallObj( int x, int y, int d, Color c)

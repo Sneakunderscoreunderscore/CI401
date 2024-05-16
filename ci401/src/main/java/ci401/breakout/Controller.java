@@ -31,11 +31,21 @@ public class Controller
     switch ( event.getCode() )             
     {
       case LEFT:                     // Left Arrow - move bat left
-        model.moveBat( -1);          
+        model.setBatDirection(false);  
+        Debug.trace("Controller::moving left");        
         break;
 
       case RIGHT:                    // Right arrow - move bat right
-        model.moveBat( +1 );         
+        model.setBatDirection(true);   
+        Debug.trace("Controller::moving right");             
+        break;
+
+      case DIGIT1:                  // 1 - buy bat upgrade
+        model.buybat();
+        break;
+
+      case DIGIT2:                  // 1 - buy ball upgrade
+        model.buyball();
         break;
 
       case SHIFT:                    // shift - toggle fast movement

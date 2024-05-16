@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 
 public class BatObj extends BaseObj
 {
-    public int   dirX   = 1;            // Direction X (1, 0 or -1)
+    public boolean direction = true;
 
     public BatObj( int x, int y, int w, int h, Color c )
     {
@@ -19,14 +19,22 @@ public class BatObj extends BaseObj
     }
 
     // move in x axis
-    public void moveX( int units )
+    public void moveX()
     {
-        topX += units * dirX;
+        if (direction==true){
+            topX += 5;
+        }
+        else{
+            topX-= 5;
+        }
+
+        // stop bat from going of the screen
+        if (topX<0){
+            topX=0;
+        } 
+        if (topX>1000-width){
+            topX=1000-width;
+        }
     }
 
-    // change direction of movement in x axis (-1, 0 or +1)
-    public void changeDirectionX()
-    {
-        dirX = -dirX;
-    }
 }

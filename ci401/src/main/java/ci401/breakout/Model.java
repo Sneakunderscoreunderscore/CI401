@@ -48,6 +48,10 @@ public class Model
     public String gameState = "running";// Set to "finished" to end the game
     public boolean fast = false;        // Set true to make the ball go faster
 
+    // shop values
+    public int shopball = 500;
+    public int shopbat = 200;
+
     // initialisation parameters for the model
     public int width;                   // Width of game
     public int height;                  // Height of game
@@ -118,7 +122,7 @@ public class Model
         //
         // Ball logic
         //
-
+        
         // move the ball one step
         ball.moveX(BALL_MOVE);                      
         ball.moveY(BALL_MOVE);
@@ -156,7 +160,15 @@ public class Model
         // check whether ball has hit the bat
         if ( ball.hitBy(bat) ) {
             ball.changeDirectionY();
+
         }
+
+        //
+        // bat logic
+        //
+
+        moveBat();
+
     }
 
     // when all the bricks are destroyed, reset them and double 1 bricks value
@@ -239,13 +251,41 @@ public class Model
     {
         score += n;        
     }
+
+     // update the score
+    public synchronized void setBatDirection(Boolean n)    
+    {
+        bat.direction = n;        
+    }
     
     // move the bat one step - -1 is left, +1 is right
-    public synchronized void moveBat( int direction )
+    public synchronized void moveBat()
     {        
-        int dist = direction * BAT_MOVE;    // Actual distance to move
-        Debug.trace( "Model::moveBat: Move bat = " + dist );
-        bat.moveX(dist);
+        bat.moveX();
+    }
+
+    // ##################
+    // Shop functions 
+    // ##################
+
+    public synchronized int getshopbat()
+    {
+        return(shopbat);
+    }
+
+    public synchronized int getshopball()
+    {
+        return(shopball);
+    }
+
+    public synchronized void buybat()    
+    {
+        bat.width += 5;        
+    }
+
+    public synchronized void buyball()    
+    {
+        bat.width += 5;        
     }
 }   
     
