@@ -26,6 +26,7 @@ public class View implements EventHandler<KeyEvent>
     public Pane pane;       // basic layout pane
     public Canvas canvas;   // canvas to draw game on
     public Label infoText;  // info at top of screen
+    public Label shopText;  // shop at the bottom of teh screen
 
     // The other parts of the model-view-controller setup
     public Controller controller;
@@ -35,6 +36,8 @@ public class View implements EventHandler<KeyEvent>
     public BallObj   ball;           // The ball
     public BrickObj[] bricks;         // The bricks
     public int       score =  0;     // The score
+    public int shopbat;
+    public int shopball;
    
     // constructor method - we get told the width and height of the window
     public View(int w, int h)
@@ -66,9 +69,14 @@ public class View implements EventHandler<KeyEvent>
         // infoText box for the score - a label which we position in front of
         // the canvas (by adding it to the pane after the canvas)
         infoText = new Label("BreakOut: Score = " + score);
-        infoText.setTranslateX(50);  // these commands setthe position of the text box
+        infoText.setTranslateX(20);  // these commands setthe position of the text box
         infoText.setTranslateY(10);  // (measuring from the top left corner)
         pane.getChildren().add(infoText);  // add label to the pane
+
+        shopText = new Label("Shop - " + score);
+        shopText.setTranslateX(200);  // these commands set the position of the text box
+        shopText.setTranslateY(10);  // (measuring from the top left corner)
+        pane.getChildren().add(shopText);  // add label to the pane
 
         // Make a new JavaFX Scene, containing the complete GUI
         Scene scene = new Scene(pane);   
@@ -116,6 +124,7 @@ public class View implements EventHandler<KeyEvent>
             
             // update the score
             infoText.setText("BreakOut: Score = " + score);
+            shopText.setText("BreakOut: Score = " + score);
         }
     }
 
@@ -148,6 +157,8 @@ public class View implements EventHandler<KeyEvent>
         bricks  = model.getBricks();            // Bricks
         bat     = model.getBat();               // Bat
         score   = model.getScore();             // Score
+        shopbat = model.getScore();
+        shopball = model.getScore();
         //Debug.trace("Update");
         drawPicture();                     // Re draw game
     }
