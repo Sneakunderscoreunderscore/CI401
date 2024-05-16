@@ -280,12 +280,18 @@ public class Model
 
     public synchronized void buybat()    
     {
-        bat.width += 5;        
+        if (score>shopbat){
+            bat.width += 5;
+            shopbat = (int) (shopbat*1.7);  
+        }  
     }
 
     public synchronized void buyball()    
     {
-        bat.width += 5;        
+        if (score>shopball){
+            bat.width += 5;
+            shopball = (int) (shopball*1.7);  
+        } 
     }
 }   
     

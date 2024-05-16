@@ -73,7 +73,7 @@ public class View implements EventHandler<KeyEvent>
         infoText.setTranslateY(10);  // (measuring from the top left corner)
         pane.getChildren().add(infoText);  // add label to the pane
 
-        shopText = new Label("Shop - [1] bat upgrade" + shopbat + "[2] extra ball" + shopball);
+        shopText = new Label("Shop - [1] bat upgrade" + shopbat + "    [2] extra ball" + shopball);
         shopText.setTranslateX(200);  // these commands set the position of the text box
         shopText.setTranslateY(10);  // (measuring from the top left corner)
         pane.getChildren().add(shopText);  // add label to the pane
