@@ -21,11 +21,11 @@ public class BatObj extends BaseObj
     // move in x axis
     public void moveX()
     {
-        if (direction==true){
+        if (direction==true){ // true = move right
             topX += 5;
         }
-        else{
-            topX-= 5;
+        else{ // false = move left
+            topX-= 5; 
         }
 
         // stop bat from going of the screen
