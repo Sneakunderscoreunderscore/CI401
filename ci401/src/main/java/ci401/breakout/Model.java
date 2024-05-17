@@ -31,6 +31,7 @@ public class Model
  
     public int BrickNum;                // The number of bricks
     public Random RandomGen = new Random();         // a random number generator
+    public int RandomNum;
     public BrickObj upgrade;            //  a brick randomly selected to get upgraded
     public static Color[] colours = {Color.GRAY,Color.AQUAMARINE,Color.AQUA,Color.AZURE,Color.RED};
 
@@ -180,13 +181,17 @@ public class Model
     {
         Debug.trace("Model::resetGame: reset started");
         ball.IFrames=60;
+        Debug.trace("Model::resetGame: gave ball immunity frames");
         for (BrickObj brick: bricks)        // make all bricks visible
         {
+            Debug.trace("Model::resetGame: resting brick "+BrickNum);
             brick.visible = true;
             BrickNum++;
-        // double the value of a random brick
-        bricks[RandomGen.nextInt(BrickNum)].LevelUp();
         }
+        // double the value of a random brick
+        RandomNum=RandomGen.nextInt(BrickNum);
+        Debug.trace("Model::resetGame: upgrading brick "+RandomNum);
+        bricks[RandomNum].LevelUp();
     }
 
     // This is how the Model talks to the View
@@ -287,6 +292,7 @@ public class Model
     public synchronized void buybat()    
     {
         if (score>shopbat){
+            score-=shopbat;
             bat.width += 5;
             shopbat = (int) (shopbat*1.7);  
         }  
@@ -295,6 +301,7 @@ public class Model
     public synchronized void buyball()    
     {
         if (score>shopball){
+            score-=shopball;
             MAX_MULTI +=0.2;
             shopball = (int) (shopball*1.4);  
         } 
