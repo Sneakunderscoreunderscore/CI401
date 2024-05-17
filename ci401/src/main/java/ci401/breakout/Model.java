@@ -148,7 +148,7 @@ public class Model
             if (brick.visible && (ball.IFrames==0) && brick.hitBy(ball)) {
                 hit = true;
                 brick.visible = false;      // set the brick invisible
-                addToScore( HIT_BRICK * HIT_MULTI);    // add to score for hitting a brick
+                addToScore( brick.Value * HIT_MULTI);    // add to score for hitting a brick
                 BrickNum -= 1;
                 Debug.trace("Model::updateGame: bricks left:"+BrickNum);
                 if (BrickNum == 0)          // if no bricks are left, reset the board
@@ -163,10 +163,10 @@ public class Model
         }
         
         // check whether ball has hit the bat
-        if ( ball.hitBy(bat) ) {
+        if ( ball.hitBy(bat) && ball.IFrames==0 ) {
             ball.changeDirectionY();
             HIT_MULTI = MAX_MULTI;
-            ball.IFrames = 30;
+            ball.IFrames = 120;
         }
 
         if(ball.IFrames>0){
