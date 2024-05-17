@@ -196,7 +196,7 @@ public class Model
         // double the value of a random brick
         RandomNum=RandomGen.nextInt(BrickNum);
         Debug.trace("Model::resetGame: upgrading brick "+RandomNum);
-        bricks[RandomNum].LevelUp();
+        bricks[RandomNum-1].LevelUp();
     }
 
     // This is how the Model talks to the View
