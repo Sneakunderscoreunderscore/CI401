@@ -25,9 +25,8 @@ public class Model
     public int BAT_MOVE       = 5;      // Distance to move bat on each keypress
     public int BALL_MOVE      = 3;      // Units to move the ball on each step
 
-    public int HIT_BRICK      = 50;     // Score for hitting a brick
-    public int HIT_MULTI     = 1;       // current score multiplier
-    public int MAX_MULTI     = 1;       // multiplier for hitting bat
+    public float HIT_MULTI     = 1;       // current score multiplier
+    public float MAX_MULTI     = 1;       // multiplier for hitting bat
  
     public int BrickNum;                // The number of bricks
     public Random RandomGen = new Random();         // a random number generator
@@ -148,7 +147,7 @@ public class Model
             if (brick.visible && (ball.IFrames==0) && brick.hitBy(ball)) {
                 hit = true;
                 brick.visible = false;      // set the brick invisible
-                addToScore( brick.Value * HIT_MULTI);    // add to score for hitting a brick
+                addToScore( (int) (brick.Value * HIT_MULTI));    // add to score for hitting a brick
                 BrickNum -= 1;
                 Debug.trace("Model::updateGame: bricks left:"+BrickNum);
                 if (BrickNum == 0)          // if no bricks are left, reset the board
