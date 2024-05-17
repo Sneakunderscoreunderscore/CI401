@@ -33,7 +33,7 @@ public class Model
     public Random RandomGen = new Random();         // a random number generator
     public int RandomNum;
     public BrickObj upgrade;            //  a brick randomly selected to get upgraded
-    public static Color[] colours = {Color.GRAY,Color.AQUAMARINE,Color.AQUA,Color.AZURE,Color.RED};
+    public static Color[] colours = {Color.GRAY,Color.AQUAMARINE,Color.AQUA,Color.AZURE,Color.RED,Color.ORANGERED,Color.ORANGE,Color.YELLOW,Color.YELLOWGREEN,Color.GREEN};
 
     // The other parts of the model-view-controller setup
     View view;
@@ -151,7 +151,7 @@ public class Model
                 addToScore( HIT_BRICK * HIT_MULTI);    // add to score for hitting a brick
                 BrickNum -= 1;
                 Debug.trace("Model::updateGame: bricks left:"+BrickNum);
-                if (BrickNum == 0)          // if no bricks are left, restart
+                if (BrickNum == 0)          // if no bricks are left, reset the board
                 {
                     resetGame();
                 }
@@ -165,7 +165,12 @@ public class Model
         // check whether ball has hit the bat
         if ( ball.hitBy(bat) ) {
             ball.changeDirectionY();
+            HIT_MULTI = MAX_MULTI;
+            ball.IFrames = 30;
+        }
 
+        if(ball.IFrames>0){
+            ball.IFrames-=1;
         }
 
         //
@@ -180,7 +185,7 @@ public class Model
     public void resetGame()
     {
         Debug.trace("Model::resetGame: reset started");
-        ball.IFrames=60;
+        ball.IFrames=30;
         Debug.trace("Model::resetGame: gave ball immunity frames");
         for (BrickObj brick: bricks)        // make all bricks visible
         {
